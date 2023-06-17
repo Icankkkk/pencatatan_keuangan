@@ -12,7 +12,7 @@ class Session {
     return success;
   }
 
-  static Future<User> getUser(User user) async {
+  static Future<User> getUser() async {
     User user = User(); // default value
     final pref = await SharedPreferences.getInstance();
     String? stringUser = pref.getString('user');
