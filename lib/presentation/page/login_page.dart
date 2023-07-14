@@ -14,100 +14,156 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  // Method Login
+  login() {
+    if (formKey.currentState!.validate()) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.lev2,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DView.nothing(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  children: [
-                    Image.asset(AppAsset.logo),
-                    DView.spaceHeight(40),
-                    // TEXT FIELD USERNAME
-                    TextField(
-                      controller: emailController,
-                      cursorColor: Colors.white,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        fillColor: AppColor.lev1,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: 'Your email',
-                        hintStyle: GoogleFonts.poppins(color: Colors.white60),
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                      ),
-                    ),
-                    DView.spaceHeight(20),
-
-                    // TEXT FIELD PASSWORD
-                    TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      cursorColor: Colors.white,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        fillColor: AppColor.lev1,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: 'Your password',
-                        hintStyle: GoogleFonts.poppins(color: Colors.white60),
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
               ),
-              // REGISTER
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Belum punya akun? ',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DView.nothing(),
+                  Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          Image.asset(AppAsset.logo),
+                          DView.spaceHeight(40),
+                          // TEXT FIELD USERNAME
+                          TextFormField(
+                            validator: (value) =>
+                                value == '' ? 'Jangan kosong' : null,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: emailController,
+                            cursorColor: Colors.white,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor: AppColor.lev1.withOpacity(0.5),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: 'Your email',
+                              hintStyle:
+                                  GoogleFonts.poppins(color: Colors.white60),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          DView.spaceHeight(),
+
+                          // TEXT FIELD PASSWORD
+                          TextFormField(
+                            validator: (value) =>
+                                value == '' ? 'Jangan kosong' : null,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: passwordController,
+                            obscureText: true,
+                            cursorColor: Colors.white,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor: AppColor.lev1.withOpacity(0.5),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: 'Your password',
+                              hintStyle:
+                                  GoogleFonts.poppins(color: Colors.white60),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          DView.spaceHeight(30),
+                          Material(
+                            color: AppColor.lev1,
+                            borderRadius: BorderRadius.circular(30),
+                            child: InkWell(
+                              onTap: () => login(),
+                              borderRadius: BorderRadius.circular(30),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 16,
+                                ),
+                                child: Text(
+                                  'LOGIN',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // LOGIN
+                        ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Register',
-                        style: GoogleFonts.poppins(
-                          color: AppColor.lev1,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  ),
+                  // REGISTER
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Belum punya akun? ',
+                          style: GoogleFonts.poppins(
+                              fontSize: 16, color: Colors.white),
                         ),
-                      ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'Register',
+                            style: GoogleFonts.poppins(
+                              color: AppColor.lev4,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           );
         },
       ),
