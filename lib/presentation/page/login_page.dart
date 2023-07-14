@@ -1,8 +1,12 @@
+import 'package:d_info/d_info.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
+import 'package:pencatatan_keuangan/data/source/source_user.dart';
+import 'package:pencatatan_keuangan/presentation/page/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,8 +20,23 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   // Method Login
-  login() {
-    if (formKey.currentState!.validate()) {}
+  login() async {
+    if (formKey.currentState!.validate()) {
+      bool success = await SourceUser.login(
+        emailController.text,
+        passwordController.text,
+      );
+      if (success) {
+        DInfo.dialogSuccess('Berhasil Login',
+            messageStyle: GoogleFonts.poppins());
+        DInfo.closeDialog(actionAfterClose: () {
+          Get.off(() => const HomePage());
+        });
+      } else {
+        DInfo.dialogSuccess('Gagal Login', messageStyle: GoogleFonts.poppins());
+        DInfo.closeDialog();
+      }
+    }
   }
 
   @override
