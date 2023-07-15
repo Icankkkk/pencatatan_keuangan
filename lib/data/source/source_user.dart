@@ -4,6 +4,7 @@ import 'package:pencatatan_keuangan/config/session.dart';
 import 'package:pencatatan_keuangan/data/model/user.dart';
 
 class SourceUser {
+  // login Method
   static Future<bool> login(String email, String password) async {
     String url = '${Api.user}/login.php';
     Map? responBody = await AppRequest.post(url, {
@@ -21,4 +22,7 @@ class SourceUser {
 
     return responBody['success'];
   }
+
+  // register method
+  static Future register(String name, String email, String password) async {}
 }

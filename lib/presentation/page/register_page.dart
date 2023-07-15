@@ -1,4 +1,3 @@
-import 'package:d_info/d_info.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,40 +5,32 @@ import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/data/source/source_user.dart';
-import 'package:pencatatan_keuangan/presentation/page/home_page.dart';
-import 'package:pencatatan_keuangan/presentation/page/register_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   // Method Login
-  login() async {
+  register() async {
     if (formKey.currentState!.validate()) {
-      bool success = await SourceUser.login(
+      bool success = await SourceUser.register(
+        nameController.text,
         emailController.text,
         passwordController.text,
       );
       if (success) {
-        // ignore: use_build_context_synchronously
-        DInfo.dialogSuccess('Berhasil Masuk',
-            messageStyle: GoogleFonts.poppins());
-
-        DInfo.closeDialog(actionAfterClose: () {
-          Get.off(() => const HomePage());
-        });
+        // ACTION
       } else {
-        // ignore: use_build_context_synchronously
-        DInfo.dialogSuccess('Gagal Masuk', messageStyle: GoogleFonts.poppins());
-        DInfo.closeDialog();
+        // ACTION
       }
     }
   }
@@ -67,7 +58,39 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Image.asset(AppAsset.logo),
                           DView.spaceHeight(40),
-                          // TEXT FIELD USERNAME
+                          // TEXT FIELD NAME
+                          TextFormField(
+                            validator: (value) =>
+                                value == '' ? 'Jangan kosong' : null,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: nameController,
+                            cursorColor: Colors.white,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor: AppColor.lev1.withOpacity(0.5),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: 'Nama kamu',
+                              hintStyle:
+                                  GoogleFonts.poppins(color: Colors.white60),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
+                              errorStyle: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          DView.spaceHeight(),
+                          // TEXT FIELD EMAIL
                           TextFormField(
                             validator: (value) =>
                                 value == '' ? 'Jangan kosong' : null,
@@ -139,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: AppColor.lev1,
                             borderRadius: BorderRadius.circular(30),
                             child: InkWell(
-                              onTap: () => login(),
+                              onTap: () => register(),
                               borderRadius: BorderRadius.circular(30),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -147,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                   vertical: 16,
                                 ),
                                 child: Text(
-                                  'MASUK',
+                                  'DAFTAR',
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -161,7 +184,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
                   // REGISTER
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
@@ -169,16 +191,16 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Belum punya akun? ',
+                          'Sudah punya akun? ',
                           style: GoogleFonts.poppins(
                               fontSize: 16, color: Colors.white),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(const RegisterPage());
+                            Get.back();
                           },
                           child: Text(
-                            'Daftar',
+                            'Masuk',
                             style: GoogleFonts.poppins(
                               color: AppColor.lev4,
                               fontWeight: FontWeight.bold,
