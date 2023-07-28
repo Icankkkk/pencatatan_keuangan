@@ -22,16 +22,11 @@ class _RegisterPageState extends State<RegisterPage> {
   // Method Login
   register() async {
     if (formKey.currentState!.validate()) {
-      bool success = await SourceUser.register(
+      await SourceUser.register(
         nameController.text,
         emailController.text,
         passwordController.text,
       );
-      if (success) {
-        // ACTION
-      } else {
-        // ACTION
-      }
     }
   }
 

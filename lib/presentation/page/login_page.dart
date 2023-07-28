@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text,
       );
       if (success) {
-        // ignore: use_build_context_synchronously
         DInfo.dialogSuccess('Berhasil Masuk',
             messageStyle: GoogleFonts.poppins());
 
@@ -37,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
           Get.off(() => const HomePage());
         });
       } else {
-        // ignore: use_build_context_synchronously
         DInfo.dialogSuccess('Gagal Masuk', messageStyle: GoogleFonts.poppins());
         DInfo.closeDialog();
       }
@@ -175,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(const RegisterPage());
+                            Get.to(() => const RegisterPage());
                           },
                           child: Text(
                             'Daftar',
