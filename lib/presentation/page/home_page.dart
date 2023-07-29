@@ -1,3 +1,4 @@
+import 'package:d_chart/d_chart.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,10 +27,11 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               _buildHeader(),
+              // Content
               Expanded(
                 child: ListView(
                   children: [
-                    _buildPengeluaranHariIni(),
+                    _buildTodayExpenses(),
                     DView.spaceHeight(30),
                     Center(
                       child: Container(
@@ -41,6 +43,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                    _buildWeeklyExpenses(),
+                    DView.spaceHeight(16),
+                    _buildMonthlyComparison(context),
                   ],
                 ),
               ),
@@ -82,29 +87,29 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        _buildMenuButton(context),
+
+        // Menu button
+        Builder(builder: (drawer) {
+          return Material(
+            borderRadius: BorderRadius.circular(4),
+            color: AppColor.lev3,
+            child: InkWell(
+              onTap: () => Scaffold.of(drawer).openEndDrawer(),
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.menu,
+                  color: AppColor.lev1,
+                ),
+              ),
+            ),
+          );
+        })
       ],
     );
   }
 
-  Widget _buildMenuButton(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(4),
-      color: AppColor.lev3,
-      child: InkWell(
-        onTap: () => Scaffold.of(context).openEndDrawer(),
-        child: const Padding(
-          padding: EdgeInsets.all(10),
-          child: Icon(
-            Icons.menu,
-            color: AppColor.lev1,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPengeluaranHariIni() {
+  Widget _buildTodayExpenses() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -182,6 +187,163 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildWeeklyExpenses() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: Text(
+            'Pengeluaran Minggu Ini',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColor.lev1,
+            ),
+          ),
+        ),
+        DView.spaceHeight(),
+        _buildChartWeekly()
+      ],
+    );
+  }
+
+  Widget _buildChartWeekly() {
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: DChartBar(
+        data: const [
+          {
+            'id': 'Bar',
+            'data': [
+              {'domain': '2020', 'measure': 3},
+              {'domain': '2021', 'measure': 4},
+              {'domain': '2022', 'measure': 6},
+              {'domain': '2023', 'measure': 5},
+              {'domain': '2024', 'measure': 7},
+            ],
+          },
+        ],
+        domainLabelPaddingToAxisLine: 16,
+        axisLineTick: 1,
+        axisLinePointTick: 1,
+        axisLinePointWidth: 8,
+        axisLineColor: AppColor.lev1,
+        measureLabelPaddingToAxisLine: 16,
+        barColor: (barData, index, id) => AppColor.lev1,
+        showBarValue: true,
+      ),
+    );
+  }
+
+  Widget _buildMonthlyComparison(BuildContext ctx) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: Text(
+            'Perbandingan Bulan Ini',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColor.lev1,
+            ),
+          ),
+        ),
+        DView.spaceHeight(),
+        _buildMonthlyChart(ctx)
+      ],
+    );
+  }
+
+  Widget _buildMonthlyChart(BuildContext ctx) {
+    return Row(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(ctx).size.width * 0.5,
+          height: MediaQuery.of(ctx).size.width * 0.5,
+          child: Stack(
+            children: [
+              DChartPie(
+                data: const [
+                  {'domain': 'Flutter', 'measure': 28},
+                  {'domain': 'React Native', 'measure': 40},
+                ],
+                fillColor: (pieData, index) => AppColor.lev1,
+                donutWidth: 28,
+                labelColor: Colors.white,
+              ),
+              // Percentage
+              Center(
+                child: Text(
+                  '70%',
+                  style: GoogleFonts.poppins(
+                    color: AppColor.lev3,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        DView.spaceWidth(16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 16,
+                  width: 16,
+                  color: AppColor.lev1,
+                ),
+                DView.spaceWidth(8),
+                Text(
+                  'Pemasukan',
+                  style: GoogleFonts.poppins(),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  height: 16,
+                  width: 16,
+                  color: AppColor.lev3,
+                ),
+                DView.spaceWidth(8),
+                Text(
+                  'Pengeluaran',
+                  style: GoogleFonts.poppins(),
+                ),
+              ],
+            ),
+            DView.spaceHeight(10),
+            Text(
+              'Pemasukan lebih \nbesar 20% dari \nPengeluaran',
+              style: GoogleFonts.poppins(),
+            ),
+            DView.spaceHeight(10),
+            Text(
+              'Atau setara',
+              style: GoogleFonts.poppins(),
+            ),
+            Text(
+              'Rp 20.000,00',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: AppColor.lev1,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
