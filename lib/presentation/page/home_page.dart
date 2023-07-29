@@ -1,3 +1,4 @@
+import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,24 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               _buildHeader(),
-              Expanded(child: ListView()),
+              Expanded(
+                child: ListView(
+                  children: [
+                    _buildPengeluaranHariIni(),
+                    DView.spaceHeight(30),
+                    Center(
+                      child: Container(
+                        height: 6,
+                        width: 72,
+                        decoration: BoxDecoration(
+                          color: AppColor.lev3,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -36,7 +54,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Image.asset(AppAsset.profile),
+        Image.asset(
+          AppAsset.profile,
+        ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                 'Hi,',
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 18,
+                  color: AppColor.lev1,
                 ),
               ),
               Obx(
@@ -53,7 +74,8 @@ class _HomePageState extends State<HomePage> {
                   controllerUser.data.name ?? '',
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 18,
+                    color: AppColor.lev1,
                   ),
                 ),
               ),
@@ -78,6 +100,87 @@ class _HomePageState extends State<HomePage> {
             color: AppColor.lev1,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPengeluaranHariIni() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: Text(
+            'Pengeluaran Hari Ini',
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColor.lev1,
+            ),
+          ),
+        ),
+        DView.spaceHeight(),
+        _buildCardToday()
+      ],
+    );
+  }
+
+  Widget _buildCardToday() {
+    return Material(
+      color: AppColor.lev1,
+      borderRadius: BorderRadius.circular(14),
+      elevation: 6,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
+            child: Text(
+              'Rp. 500.000.00',
+              style: GoogleFonts.poppins(
+                color: AppColor.lev4,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 30),
+            child: Text(
+              '20% dibanding kemarin',
+              style: GoogleFonts.poppins(
+                color: AppColor.lev4,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Selengkapnya',
+                  style: GoogleFonts.poppins(
+                    color: AppColor.lev1,
+                    fontSize: 16,
+                  ),
+                ),
+                const Icon(
+                  Icons.navigate_next,
+                  color: AppColor.lev1,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
