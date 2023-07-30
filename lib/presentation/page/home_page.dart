@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
+import 'package:pencatatan_keuangan/config/session.dart';
 import 'package:pencatatan_keuangan/data/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/page/login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +22,135 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: const Drawer(),
+      endDrawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              margin: const EdgeInsets.only(bottom: 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 16, 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        AppAsset.profile,
+                        width: 70,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(
+                              () => Text(
+                                controllerUser.data.name ?? '',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            Obx(
+                              () => Text(
+                                controllerUser.data.email ?? '',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Logout
+                  DView.spaceHeight(10),
+                  ElevatedButton(
+                    onPressed: () {
+                      // clear session and going to login page.
+                      Session.clearUser();
+                      Get.off(() => const LoginPage());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 24,
+                      ),
+                      elevation: 6,
+                      backgroundColor: AppColor.lev1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: Text(
+                      'Keluar',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: const Icon(Icons.add),
+              horizontalTitleGap: 0,
+              title: Text(
+                'Tambah Baru',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+              trailing: const Icon(Icons.navigate_next),
+            ),
+            const Divider(height: 0.5),
+            ListTile(
+              onTap: () {},
+              leading: const Icon(Icons.south_west),
+              horizontalTitleGap: 0,
+              title: Text(
+                'Pemasukan',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+              trailing: const Icon(Icons.navigate_next),
+            ),
+            const Divider(height: 0.5),
+            ListTile(
+              onTap: () {},
+              leading: const Icon(Icons.north_east),
+              horizontalTitleGap: 0,
+              title: Text(
+                'Pengeluaran',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+              trailing: const Icon(Icons.navigate_next),
+            ),
+            const Divider(height: 0.5),
+            ListTile(
+              onTap: () {},
+              leading: const Icon(Icons.history),
+              horizontalTitleGap: 0,
+              title: Text(
+                'Riwayat',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                ),
+              ),
+              trailing: const Icon(Icons.navigate_next),
+            ),
+            const Divider(height: 0.5),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
@@ -61,6 +191,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Image.asset(
           AppAsset.profile,
+          width: 70,
         ),
         Expanded(
           child: Column(
