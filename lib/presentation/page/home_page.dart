@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/config/session.dart';
-import 'package:pencatatan_keuangan/data/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/page/login_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controllerUser = Get.put(ControllerUser());
+  final userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Obx(
                               () => Text(
-                                controllerUser.data.name ?? '',
+                                userController.data.name ?? '',
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Obx(
                               () => Text(
-                                controllerUser.data.email ?? '',
+                                userController.data.email ?? '',
                                 style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w300,
                                   fontSize: 16,
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Obx(
                 () => Text(
-                  controllerUser.data.name ?? '',
+                  userController.data.name ?? '',
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
