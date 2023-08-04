@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
           Get.off(() => const HomePage());
         });
       } else {
-        DInfo.dialogSuccess('Gagal Masuk', messageStyle: GoogleFonts.poppins());
+        DInfo.dialogError('Gagal Masuk', messageStyle: GoogleFonts.poppins());
         DInfo.closeDialog();
       }
     }

@@ -9,23 +9,23 @@ class HomeController extends GetxController {
   final _todayPercent = '0'.obs;
   String get todayPercent => _todayPercent.value;
 
-  // final _week = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
-  // List<double> get week => _week.value;
+  final _week = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
+  List<double> get week => _week.value;
 
-  // List<String> get days => ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+  List<String> get days => ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
-  // List<String> weekText() {
-  //   DateTime today = DateTime.now();
-  //   return [
-  //     days[today.subtract(const Duration(days: 6)).weekday - 1],
-  //     days[today.subtract(const Duration(days: 5)).weekday - 1],
-  //     days[today.subtract(const Duration(days: 4)).weekday - 1],
-  //     days[today.subtract(const Duration(days: 3)).weekday - 1],
-  //     days[today.subtract(const Duration(days: 2)).weekday - 1],
-  //     days[today.subtract(const Duration(days: 1)).weekday - 1],
-  //     days[today.weekday - 1],
-  //   ];
-  // }
+  List<String> weekText() {
+    DateTime today = DateTime.now();
+    return [
+      days[today.subtract(const Duration(days: 6)).weekday - 1],
+      days[today.subtract(const Duration(days: 5)).weekday - 1],
+      days[today.subtract(const Duration(days: 4)).weekday - 1],
+      days[today.subtract(const Duration(days: 3)).weekday - 1],
+      days[today.subtract(const Duration(days: 2)).weekday - 1],
+      days[today.subtract(const Duration(days: 1)).weekday - 1],
+      days[today.weekday - 1],
+    ];
+  }
 
   getAnalysis(String idUser) async {
     Map data = await SourceHistory.analysis(idUser);
@@ -44,6 +44,6 @@ class HomeController extends GetxController {
             ? '+${percent.toStringAsFixed(1)}% dibanding kemarin'
             : '-${percent.toStringAsFixed(1)}% dibanding kemarin';
 
-    //_week.value = List.castFrom(data['week'].map((e) => e.toDouble()).toList());
+    _week.value = List.castFrom(data['week'].map((e) => e.toDouble()).toList());
   }
 }

@@ -6,7 +6,7 @@ import '../../config/api.dart';
 
 class SourceHistory {
   static Future<Map> analysis(String idUser) async {
-    String url = '${Api.history}/login.php';
+    String url = '${Api.history}/analysis.php';
     try {
       Map? responseBody = await AppRequest.post(url, {
         'id_user': idUser,

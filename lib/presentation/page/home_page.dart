@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
+import 'package:pencatatan_keuangan/config/app_format.dart';
 import 'package:pencatatan_keuangan/config/session.dart';
+import 'package:pencatatan_keuangan/presentation/controller/controller_home.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/page/login_page.dart';
 
@@ -18,6 +20,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final userController = Get.put(UserController());
+  final homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.getAnalysis(userController.data.idUser!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -271,23 +280,27 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 20, 16, 4),
-            child: Text(
-              'Rp. 500.000.00',
-              style: GoogleFonts.poppins(
-                color: AppColor.lev4,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: Obx(() {
+              return Text(
+                AppFormat.currency(homeController.today.toString()),
+                style: GoogleFonts.poppins(
+                  color: AppColor.lev4,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 30),
-            child: Text(
-              '20% dibanding kemarin',
-              style: GoogleFonts.poppins(
-                color: AppColor.lev4,
-              ),
-            ),
+            child: Obx(() {
+              return Text(
+                homeController.todayPercent,
+                style: GoogleFonts.poppins(
+                  color: AppColor.lev3,
+                ),
+              );
+            }),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
@@ -345,28 +358,29 @@ class _HomePageState extends State<HomePage> {
   Widget _buildChartWeekly() {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: DChartBar(
-        data: const [
-          {
-            'id': 'Bar',
-            'data': [
-              {'domain': '2020', 'measure': 3},
-              {'domain': '2021', 'measure': 4},
-              {'domain': '2022', 'measure': 6},
-              {'domain': '2023', 'measure': 5},
-              {'domain': '2024', 'measure': 7},
-            ],
-          },
-        ],
-        domainLabelPaddingToAxisLine: 16,
-        axisLineTick: 1,
-        axisLinePointTick: 1,
-        axisLinePointWidth: 8,
-        axisLineColor: AppColor.lev1,
-        measureLabelPaddingToAxisLine: 16,
-        barColor: (barData, index, id) => AppColor.lev1,
-        showBarValue: true,
-      ),
+      child: Obx(() {
+        return DChartBar(
+          data: [
+            {
+              'id': 'Bar',
+              'data': List.generate(7, (index) {
+                return {
+                  'domain': homeController.weekText()[index],
+                  'measure': homeController.week[index]
+                };
+              })
+            },
+          ],
+          domainLabelPaddingToAxisLine: 16,
+          axisLineTick: 1,
+          axisLinePointTick: 1,
+          axisLinePointWidth: 8,
+          axisLineColor: AppColor.lev1,
+          measureLabelPaddingToAxisLine: 16,
+          barColor: (barData, index, id) => AppColor.lev1,
+          showBarValue: true,
+        );
+      }),
     );
   }
 
