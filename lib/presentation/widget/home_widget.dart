@@ -9,7 +9,7 @@ import '../../config/app_asset.dart';
 import '../../config/app_color.dart';
 import '../../config/app_format.dart';
 import '../../config/session.dart';
-import '../page/login_page.dart';
+import '../page/auth/login_page.dart';
 
 class HomeWidget {
   final userController = Get.put(UserController());

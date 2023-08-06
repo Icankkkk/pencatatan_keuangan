@@ -5,7 +5,8 @@ import 'package:pencatatan_keuangan/config/api.dart';
 import 'package:pencatatan_keuangan/config/app_request.dart';
 import 'package:pencatatan_keuangan/config/session.dart';
 import 'package:pencatatan_keuangan/data/model/user.dart';
-import 'package:pencatatan_keuangan/presentation/page/login_page.dart';
+
+import '../../presentation/page/auth/login_page.dart';
 
 class SourceUser {
   // login Method

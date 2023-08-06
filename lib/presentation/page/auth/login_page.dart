@@ -6,8 +6,8 @@ import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/data/source/source_user.dart';
+import 'package:pencatatan_keuangan/presentation/page/auth/register_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/home_page.dart';
-import 'package:pencatatan_keuangan/presentation/page/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
