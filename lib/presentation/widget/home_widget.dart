@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_home.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/page/add_history_page.dart';
 import '../../config/app_asset.dart';
 import '../../config/app_color.dart';
 import '../../config/app_format.dart';
@@ -90,7 +91,9 @@ class HomeWidget {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => AddHistoryPage());
+            },
             leading: const Icon(Icons.add),
             horizontalTitleGap: 0,
             title: Text(
