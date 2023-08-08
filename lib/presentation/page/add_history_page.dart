@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:d_input/d_input.dart';
 import 'package:d_view/d_view.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -6,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pencatatan_keuangan/config/app_format.dart';
+import 'package:pencatatan_keuangan/data/source/source_history.dart';
+import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_add_history.dart';
 
 import '../../config/app_color.dart';
@@ -13,11 +17,25 @@ import '../../config/app_color.dart';
 class AddHistoryPage extends StatelessWidget {
   AddHistoryPage({super.key});
   final controllerAddHistory = Get.put(ControllerAddHistory());
+  final controllerUser = Get.put(UserController());
   final controllerName = TextEditingController();
   final controollerPrice = TextEditingController();
 
   addHistory() async {
-    // TODO: create action here!
+    bool success = await SourceHistory.add(
+      controllerUser.data.idUser!,
+      controllerAddHistory.date,
+      controllerAddHistory.type,
+      jsonEncode(controllerAddHistory.items),
+      controllerAddHistory.total.toString(),
+    );
+
+    if (success) {
+      Future.delayed(
+        const Duration(milliseconds: 3000),
+        () => Get.back(result: true),
+      );
+    }
   }
 
   @override
@@ -230,12 +248,12 @@ class AddHistoryPage extends StatelessWidget {
             ),
             // Submit
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+              margin: const EdgeInsets.fromLTRB(0, 60, 0, 10),
               child: ElevatedButton(
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(8),
                 ),
-                onPressed: () {},
+                onPressed: () => addHistory(),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
                   child: Text(

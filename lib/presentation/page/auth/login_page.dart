@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // REGISTER
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
