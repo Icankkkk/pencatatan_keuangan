@@ -36,17 +36,22 @@ class _HomePageState extends State<HomePage> {
               homeWidget.buildHeader(),
               // Content
               Expanded(
-                child: ListView(
-                  children: [
-                    homeWidget.buildTodayExpenses(),
-                    DView.spaceHeight(30),
-                    Center(
-                      child: myDivider(),
-                    ),
-                    homeWidget.buildWeeklyExpenses(),
-                    DView.spaceHeight(16),
-                    homeWidget.buildMonthlyComparison(context),
-                  ],
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    homeController.getAnalysis(userController.data.idUser!);
+                  },
+                  child: ListView(
+                    children: [
+                      homeWidget.buildTodayExpenses(),
+                      DView.spaceHeight(30),
+                      Center(
+                        child: myDivider(),
+                      ),
+                      homeWidget.buildWeeklyExpenses(),
+                      DView.spaceHeight(16),
+                      homeWidget.buildMonthlyComparison(context),
+                    ],
+                  ),
                 ),
               ),
             ],

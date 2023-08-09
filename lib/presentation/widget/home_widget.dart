@@ -387,9 +387,9 @@ class HomeWidget {
                     fillColor: (pieData, index) {
                       switch (pieData['domain']) {
                         case 'income':
-                          return AppColor.lev1;
-                        case 'outcome':
                           return AppColor.lev3;
+                        case 'outcome':
+                          return AppColor.lev1;
                         default:
                           return AppColor.lev2.withOpacity(0.5);
                       }
@@ -429,7 +429,7 @@ class HomeWidget {
                 ),
                 DView.spaceWidth(8),
                 Text(
-                  'Pemasukan',
+                  'Pengeluaran',
                   style: GoogleFonts.poppins(),
                 ),
               ],
@@ -443,7 +443,7 @@ class HomeWidget {
                 ),
                 DView.spaceWidth(8),
                 Text(
-                  'Pengeluaran',
+                  'Pemasukan',
                   style: GoogleFonts.poppins(),
                 ),
               ],

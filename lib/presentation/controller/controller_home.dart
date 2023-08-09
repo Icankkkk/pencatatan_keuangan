@@ -6,11 +6,10 @@ class HomeController extends GetxController {
   final _today = 0.0.obs;
   double get today => _today.value;
 
-  final _todayPercent = '0'.obs;
+  final _todayPercent = ''.obs;
   String get todayPercent => _todayPercent.value;
 
   final _week = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
-  // ignore: invalid_use_of_protected_member
   List<double> get week => _week.value;
 
   List<String> get days => ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
@@ -45,14 +44,14 @@ class HomeController extends GetxController {
   getAnalysis(String idUser) async {
     Map data = await SourceHistory.analysis(idUser);
 
-// Today outcome
+    // today outcome
     _today.value = data['today'].toDouble();
     double yesterday = data['yesterday'].toDouble();
     double different = (today - yesterday).abs();
     bool isSame = today.isEqual(yesterday);
     bool isPlus = today.isGreaterThan(yesterday);
-    double byYesterday = yesterday == 0 ? 1 : yesterday;
-    double percent = (different / byYesterday) * 100;
+    double dividerToday = (today + yesterday) == 0 ? 1 : (today + yesterday);
+    double percent = (different / dividerToday) * 100;
     _todayPercent.value = isSame
         ? '100% sama dengan kemarin'
         : isPlus
@@ -71,7 +70,7 @@ class HomeController extends GetxController {
     double percentMonth = (differentMonth / dividerMonth) * 100;
     _percentIncome.value = percentMonth.toStringAsFixed(1);
     _monthPercent.value = isSameMonth
-        ? 'Pemasukan\n100% sama dengan \nPengeluaran'
+        ? 'Pemasukan\n100% sama\ndengan Pengeluaran'
         : isPlusMonth
             ? 'Pemasukan\nlebih besar $percentIncome%\ndari Pengeluaran'
             : 'Pemasukan\nlebih kecil $percentIncome%\ndari Pengeluaran';
