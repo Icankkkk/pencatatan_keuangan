@@ -3,6 +3,7 @@ import 'package:d_method/d_method.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pencatatan_keuangan/config/app_request.dart';
+import 'package:pencatatan_keuangan/data/model/history.dart';
 
 import '../../config/api.dart';
 
@@ -70,5 +71,20 @@ class SourceHistory {
     }
 
     return responseBody['success'];
+  }
+
+  static Future<List<History>> incomeOutcome(String idUser, String type) async {
+    String url = '${Api.history}/income_outcome.php';
+    Map? responseBody =
+        await AppRequest.post(url, {'id_user': idUser, 'type': type});
+
+    if (responseBody == null) return [];
+
+    if (responseBody['success']) {
+      List list = responseBody['data'];
+      return list.map((e) => History.fromJson(e)).toList();
+    }
+
+    return [];
   }
 }

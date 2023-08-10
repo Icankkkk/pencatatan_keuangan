@@ -1,13 +1,34 @@
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/config/app_format.dart';
+import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
 
-class IncomeOutcomePage extends StatelessWidget {
+class IncomeOutcomePage extends StatefulWidget {
   const IncomeOutcomePage({super.key, required this.type});
 
   final String type;
+
+  @override
+  State<IncomeOutcomePage> createState() => _IncomeOutcomePageState();
+}
+
+class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
+  final incomeOutcomeController = Get.put(IncomeOutcomeController());
+  final userController = Get.put(UserController());
+
+  refresh() {
+    incomeOutcomeController.getList(userController.data.idUser, widget.type);
+  }
+
+  @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +40,7 @@ class IncomeOutcomePage extends StatelessWidget {
           children: [
             // Title
             Text(
-              type,
+              widget.type,
               style: GoogleFonts.poppins(),
             ),
             Expanded(
