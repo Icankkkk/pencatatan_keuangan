@@ -42,7 +42,13 @@ class AddHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: DView.appBarLeft('Tambah Baru'),
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: Text(
+            'Tambah Baru',
+            style: GoogleFonts.poppins(),
+          ),
+        ),
         body: ListView(
           padding: const EdgeInsets.all(20),
           children: [

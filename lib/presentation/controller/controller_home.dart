@@ -10,7 +10,7 @@ class HomeController extends GetxController {
   String get todayPercent => _todayPercent.value;
 
   final _week = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0].obs;
-  List<double> get week => _week.value;
+  List<double> get week => _week;
 
   List<String> get days => ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
   List<String> weekText() {
