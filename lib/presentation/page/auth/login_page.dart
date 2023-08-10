@@ -29,8 +29,10 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text,
       );
       if (success) {
-        DInfo.dialogSuccess('Berhasil Masuk',
-            messageStyle: GoogleFonts.poppins());
+        DInfo.dialogSuccess(
+          'Berhasil Masuk',
+          messageStyle: GoogleFonts.poppins(),
+        );
 
         DInfo.closeDialog(actionAfterClose: () {
           Get.off(() => const HomePage());

@@ -31,6 +31,16 @@ class SourceHistory {
     }
   }
 
+  static Future<bool> delete(String idHistory) async {
+    String url = '${Api.history}/delete.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_history': idHistory,
+    });
+
+    if (responseBody == null) return false;
+    return responseBody['success'];
+  }
+
   static Future<bool> add(
     String idUser,
     String date,
@@ -75,8 +85,29 @@ class SourceHistory {
 
   static Future<List<History>> incomeOutcome(String idUser, String type) async {
     String url = '${Api.history}/income_outcome.php';
-    Map? responseBody =
-        await AppRequest.post(url, {'id_user': idUser, 'type': type});
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+      'type': type,
+    });
+
+    if (responseBody == null) return [];
+
+    if (responseBody['success']) {
+      List list = responseBody['data'];
+      return list.map((e) => History.fromJson(e)).toList();
+    }
+
+    return [];
+  }
+
+  static Future<List<History>> incomeOutcomeSearch(
+      String idUser, String type, String date) async {
+    String url = '${Api.history}/income_outcome_search.php';
+    Map? responseBody = await AppRequest.post(url, {
+      'id_user': idUser,
+      'type': type,
+      'date': date,
+    });
 
     if (responseBody == null) return [];
 
