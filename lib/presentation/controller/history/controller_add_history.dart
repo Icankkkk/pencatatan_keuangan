@@ -10,26 +10,26 @@ class ControllerAddHistory extends GetxController {
   String get type => _type.value;
   setType(n) => _type.value = n;
 
-  final _items = <dynamic>[].obs;
-  List<dynamic> get items => _items.toList();
-  void addItem(dynamic item) {
-    _items.add(item);
+  final _items = [].obs;
+  List get items => _items.value;
+  addItem(n) {
+    _items.value.add(n);
     count();
   }
 
-  void deleteItem(dynamic item) {
-    _items.remove(item);
+  deleteItem(i) {
+    _items.value.removeAt(i);
     count();
   }
 
   final _total = 0.0.obs;
   double get total => _total.value;
 
-  void count() {
-    _total.value = items
-        .map<double>((e) => double.parse(e['price'].toString()))
-        .toList()
-        .fold(0.0, (previousValue, element) => previousValue + element);
+  count() {
+    _total.value = items.map((e) => e['price']).toList().fold(0.0,
+        (previousValue, element) {
+      return double.parse(previousValue.toString()) + double.parse(element);
+    });
     update();
   }
 }

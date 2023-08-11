@@ -4,7 +4,7 @@ import 'package:pencatatan_keuangan/data/source/source_history.dart';
 
 class IncomeOutcomeController extends GetxController {
   final _list = <History>[].obs;
-  List<History> get list => _list;
+  List<History> get list => _list.value;
 
   final _loading = false.obs;
   bool get loading => _loading.value;
