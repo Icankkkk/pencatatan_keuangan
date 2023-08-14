@@ -10,6 +10,7 @@ import 'package:pencatatan_keuangan/data/model/history.dart';
 import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
+import 'package:pencatatan_keuangan/presentation/page/update_history_page.dart';
 
 class IncomeOutcomePage extends StatefulWidget {
   const IncomeOutcomePage({super.key, required this.type});
@@ -31,7 +32,12 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
 
   menuOption(String value, History history) async {
     if (value == 'update') {
-      // TODO
+      Get.to(() => UpdateHistoryPage(
+          date: history.date!, idHistory: history.idHistory!))?.then((value) {
+        if (value ?? false) {
+          refresh();
+        }
+      });
     } else if (value == 'delete') {
       bool? isDelete = await DInfo.dialogConfirmation(
         context,

@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pencatatan_keuangan/data/model/history.dart';
+import 'package:pencatatan_keuangan/data/source/source_history.dart';
 
-class ControllerAddHistory extends GetxController {
+class UpdateHistoryController extends GetxController {
   final _date = DateFormat('yyyy-MM-dd').format(DateTime.now()).obs;
   String get date => _date.value;
   setDate(n) => _date.value = n;
 
-  final _type = 'Pemasukan'.obs;
+  final _type = 'Pengeluaran'.obs;
   String get type => _type.value;
   setType(n) => _type.value = n;
 
@@ -31,5 +35,15 @@ class ControllerAddHistory extends GetxController {
       return double.parse(previousValue.toString()) + double.parse(element);
     });
     update();
+  }
+
+  init(idUser, date) async {
+    History? history = await SourceHistory.whereDate(idUser, date);
+    if (history != null) {
+      setDate(history.date);
+      setType(history.type);
+      _items.value = jsonDecode(history.details!);
+      count();
+    }
   }
 }

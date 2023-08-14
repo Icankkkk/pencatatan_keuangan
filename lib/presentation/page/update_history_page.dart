@@ -9,24 +9,35 @@ import 'package:intl/intl.dart';
 import 'package:pencatatan_keuangan/config/app_format.dart';
 import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
-import 'package:pencatatan_keuangan/presentation/controller/history/controller_add_history.dart';
+import 'package:pencatatan_keuangan/presentation/controller/history/controller_update_history.dart';
 
 import '../../config/app_color.dart';
 
-class AddHistoryPage extends StatelessWidget {
-  AddHistoryPage({super.key});
-  final controllerAddHistory = Get.put(ControllerAddHistory());
+class UpdateHistoryPage extends StatefulWidget {
+  const UpdateHistoryPage(
+      {super.key, required this.date, required this.idHistory});
+
+  final String date;
+  final String idHistory;
+
+  @override
+  State<UpdateHistoryPage> createState() => _UpdateHistoryPageState();
+}
+
+class _UpdateHistoryPageState extends State<UpdateHistoryPage> {
+  final controllerUpdateHistory = Get.put(UpdateHistoryController());
   final controllerUser = Get.put(UserController());
   final controllerName = TextEditingController();
   final controollerPrice = TextEditingController();
 
-  addHistory() async {
-    bool success = await SourceHistory.add(
+  updateHistory() async {
+    bool success = await SourceHistory.update(
+      widget.idHistory,
       controllerUser.data.idUser!,
-      controllerAddHistory.date,
-      controllerAddHistory.type,
-      jsonEncode(controllerAddHistory.items),
-      controllerAddHistory.total.toString(),
+      controllerUpdateHistory.date,
+      controllerUpdateHistory.type,
+      jsonEncode(controllerUpdateHistory.items),
+      controllerUpdateHistory.total.toString(),
     );
 
     if (success) {
@@ -38,13 +49,19 @@ class AddHistoryPage extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    controllerUpdateHistory.init(controllerUser.data.idUser, widget.date);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
           title: Text(
-            'Tambah Baru',
+            'Update',
             style: GoogleFonts.poppins(),
           ),
         ),
@@ -59,7 +76,7 @@ class AddHistoryPage extends StatelessWidget {
               children: [
                 Obx(() {
                   return Text(
-                    controllerAddHistory.date,
+                    controllerUpdateHistory.date,
                     style: GoogleFonts.poppins(fontSize: 18),
                   );
                 }),
@@ -73,7 +90,7 @@ class AddHistoryPage extends StatelessWidget {
                       lastDate: DateTime(DateTime.now().year + 1),
                     );
                     if (result != null) {
-                      controllerAddHistory
+                      controllerUpdateHistory
                           .setDate(DateFormat('yyyy-MM-dd').format(result));
                     }
                   },
@@ -99,7 +116,7 @@ class AddHistoryPage extends StatelessWidget {
                   labelStyle: GoogleFonts.poppins(),
                 ),
                 child: DropdownButton(
-                  value: controllerAddHistory.type,
+                  value: controllerUpdateHistory.type,
                   items: ['Pemasukan', 'Pengeluaran'].map((e) {
                     return DropdownMenuItem(
                       value: e,
@@ -110,7 +127,7 @@ class AddHistoryPage extends StatelessWidget {
                     );
                   }).toList(),
                   onChanged: (value) {
-                    controllerAddHistory.setType(value);
+                    controllerUpdateHistory.setType(value);
                   },
                   isExpanded: true,
                   underline: Container(),
@@ -118,32 +135,6 @@ class AddHistoryPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               );
-              // return DropdownButtonFormField(
-              //   borderRadius: BorderRadius.circular(16),
-              //   value: controllerAddHistory.type,
-              //   items: ['Pemasukan', 'Pengeluaran'].map((e) {
-              //     return DropdownMenuItem(
-              //       value: e,
-              //       child: Text(
-              //         e,
-              //         style: GoogleFonts.poppins(),
-              //       ),
-              //     );
-              //   }).toList(),
-              //   onChanged: (value) {
-              //     controllerAddHistory.setType(value);
-              //   },
-              //   decoration: InputDecoration(
-              //     contentPadding: const EdgeInsets.symmetric(
-              //       horizontal: 20,
-              //       vertical: 16,
-              //     ),
-              //     labelText: 'Tipe',
-              //     labelStyle: GoogleFonts.poppins(),
-              //     border: const OutlineInputBorder(),
-              //     isDense: true,
-              //   ),
-              // );
             }),
             // Subject or object
             DView.spaceHeight(24),
@@ -176,7 +167,7 @@ class AddHistoryPage extends StatelessWidget {
             DView.spaceHeight(),
             ElevatedButton(
               onPressed: () {
-                controllerAddHistory.addItem({
+                controllerUpdateHistory.addItem({
                   'name': controllerName.text,
                   'price': controollerPrice.text,
                 });
@@ -216,7 +207,7 @@ class AddHistoryPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey),
               ),
-              child: GetBuilder<ControllerAddHistory>(
+              child: GetBuilder<UpdateHistoryController>(
                 builder: (context) {
                   return Wrap(
                     runSpacing: 0,
@@ -257,7 +248,8 @@ class AddHistoryPage extends StatelessWidget {
                 DView.spaceWidth(10),
                 Obx(() {
                   return Text(
-                    AppFormat.currency(controllerAddHistory.total.toString()),
+                    AppFormat.currency(
+                        controllerUpdateHistory.total.toString()),
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -274,7 +266,7 @@ class AddHistoryPage extends StatelessWidget {
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(8),
                 ),
-                onPressed: () => addHistory(),
+                onPressed: () => updateHistory(),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
                   child: Text(
