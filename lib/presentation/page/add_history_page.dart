@@ -118,32 +118,6 @@ class AddHistoryPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               );
-              // return DropdownButtonFormField(
-              //   borderRadius: BorderRadius.circular(16),
-              //   value: controllerAddHistory.type,
-              //   items: ['Pemasukan', 'Pengeluaran'].map((e) {
-              //     return DropdownMenuItem(
-              //       value: e,
-              //       child: Text(
-              //         e,
-              //         style: GoogleFonts.poppins(),
-              //       ),
-              //     );
-              //   }).toList(),
-              //   onChanged: (value) {
-              //     controllerAddHistory.setType(value);
-              //   },
-              //   decoration: InputDecoration(
-              //     contentPadding: const EdgeInsets.symmetric(
-              //       horizontal: 20,
-              //       vertical: 16,
-              //     ),
-              //     labelText: 'Tipe',
-              //     labelStyle: GoogleFonts.poppins(),
-              //     border: const OutlineInputBorder(),
-              //     isDense: true,
-              //   ),
-              // );
             }),
             // Subject or object
             DView.spaceHeight(24),

@@ -18,10 +18,14 @@ class _HomePageState extends State<HomePage> {
   final homeController = Get.put(HomeController());
   final homeWidget = Get.put(HomeWidget());
 
+  refresh() {
+    homeController.getAnalysis(userController.data.idUser!);
+  }
+
   @override
   void initState() {
     super.initState();
-    homeController.getAnalysis(userController.data.idUser!);
+    refresh();
   }
 
   @override
@@ -38,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    homeController.getAnalysis(userController.data.idUser!);
+                    refresh();
                   },
                   child: ListView(
                     children: [

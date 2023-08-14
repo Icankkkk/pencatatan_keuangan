@@ -1,4 +1,3 @@
-import 'package:d_info/d_info.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,7 @@ import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
 import 'package:pencatatan_keuangan/presentation/page/update_history_page.dart';
+import 'package:pencatatan_keuangan/presentation/widget/my_package.dart';
 
 class IncomeOutcomePage extends StatefulWidget {
   const IncomeOutcomePage({super.key, required this.type});
@@ -39,12 +39,11 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
         }
       });
     } else if (value == 'delete') {
-      bool? isDelete = await DInfo.dialogConfirmation(
+      bool? isDelete = await MyPackage.dialogConfirmation(
         context,
-        'Hapus',
-        'Yakin untuk menghapus history inidd?',
-        textNo: 'Batal',
-        textYes: 'Ya',
+        title: 'Hapus',
+        content: 'Yakin ingin menghapus history ini?',
+        myStyle: GoogleFonts.poppins(),
       );
       if (isDelete!) {
         bool success = await SourceHistory.delete(history.idHistory!);
