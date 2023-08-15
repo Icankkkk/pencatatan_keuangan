@@ -8,47 +8,39 @@ import 'package:pencatatan_keuangan/config/app_format.dart';
 import 'package:pencatatan_keuangan/data/model/history.dart';
 import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/controller/history/controller_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
-import 'package:pencatatan_keuangan/presentation/page/update_history_page.dart';
 import 'package:pencatatan_keuangan/package/my_package.dart';
 
-class IncomeOutcomePage extends StatefulWidget {
-  const IncomeOutcomePage({super.key, required this.type});
+class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key, required this.type});
 
   final String type;
 
   @override
-  State<IncomeOutcomePage> createState() => _IncomeOutcomePageState();
+  State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
+class _HistoryPageState extends State<HistoryPage> {
   final incomeOutcomeController = Get.put(IncomeOutcomeController());
+  final historyController = Get.put(HistoryController());
   final userController = Get.put(UserController());
   final searchController = TextEditingController();
 
   refresh() {
-    incomeOutcomeController.getList(userController.data.idUser, widget.type);
+    historyController.getList(userController.data.idUser);
   }
 
-  menuOption(String value, History history) async {
-    if (value == 'update') {
-      Get.to(() => UpdateHistoryPage(
-          date: history.date!, idHistory: history.idHistory!))?.then((value) {
-        if (value ?? false) {
-          refresh();
-        }
-      });
-    } else if (value == 'delete') {
-      bool? isDelete = await MyPackage.dialogConfirmation(
-        context,
-        title: 'Hapus',
-        content: 'Yakin ingin menghapus history ini?',
-        myStyle: GoogleFonts.poppins(),
-      );
-      if (isDelete!) {
-        bool success = await SourceHistory.delete(history.idHistory!);
-        if (success) refresh();
-      }
+  delete(String idHistory) async {
+    bool? isDelete = await MyPackage.dialogConfirmation(
+      context,
+      title: 'Hapus',
+      content: 'Yakin ingin menghapus history ini?',
+      myStyle: GoogleFonts.poppins(),
+    );
+    if (isDelete!) {
+      bool success = await SourceHistory.delete(idHistory);
+      if (success) refresh();
     }
   }
 
@@ -72,7 +64,7 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
             ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.all(16),
+                margin: const EdgeInsets.fromLTRB(40, 16, 20, 16),
                 height: 40,
                 child: TextField(
                   controller: searchController,
@@ -98,10 +90,10 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                     fillColor: AppColor.lev3.withOpacity(0.5),
                     isDense: false,
                     suffixIcon: IconButton(
+                      padding: const EdgeInsets.only(right: 4),
                       onPressed: () {
-                        incomeOutcomeController.search(
+                        historyController.search(
                           userController.data.idUser,
-                          widget.type,
                           searchController.text,
                         );
                       },
@@ -112,10 +104,10 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                       ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 20,
+                      vertical: 10,
+                      horizontal: 16,
                     ),
-                    hintText: AppFormat.date(DateTime.now().toString()),
+                    hintText: 'Cari riwayat...',
                     hintStyle: GoogleFonts.poppins(
                       color: Colors.white.withOpacity(0.5),
                     ),
@@ -130,7 +122,7 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
         ),
       ),
       // Content body
-      body: GetBuilder<IncomeOutcomeController>(builder: (ctx) {
+      body: GetBuilder<HistoryController>(builder: (ctx) {
         if (ctx.loading) return DView.loadingCircle();
         if (ctx.list.isEmpty) return DView.empty('Kosong');
         return RefreshIndicator(
@@ -157,6 +149,10 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                     child: Row(
                       children: [
                         DView.spaceWidth(),
+                        history.type == 'Pemasukan'
+                            ? Icon(Icons.south_west, color: Colors.green[300])
+                            : Icon(Icons.north_east, color: Colors.red[300]),
+                        DView.spaceWidth(),
                         Text(
                           AppFormat.date(history.date!),
                           style: GoogleFonts.poppins(
@@ -176,44 +172,10 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                             textAlign: TextAlign.end,
                           ),
                         ),
-                        PopupMenuButton<String>(
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 'update',
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Update',
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.update,
-                                    color: Color(0xff83D290),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            PopupMenuItem(
-                              value: 'delete',
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Delete',
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.delete_forever,
-                                    color: Color(0XFFFF7171),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                          onSelected: (value) => menuOption(value, history),
+                        IconButton(
+                          onPressed: () => delete(history.idHistory!),
+                          icon: Icon(Icons.delete_forever,
+                              color: Colors.red[300]),
                         ),
                       ],
                     ),

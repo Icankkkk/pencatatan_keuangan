@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_home.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/page/add_history_page.dart';
+import 'package:pencatatan_keuangan/presentation/page/history_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/income_outcome_page.dart';
 import '../../config/app_asset.dart';
 import '../../config/app_color.dart';
@@ -137,7 +138,9 @@ class HomeWidget {
           ),
           const Divider(height: 0.5),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const HistoryPage(type: 'Riwayat'));
+            },
             leading: const Icon(Icons.history),
             horizontalTitleGap: 0,
             title: Text(
