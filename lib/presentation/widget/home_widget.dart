@@ -192,18 +192,12 @@ class HomeWidget {
 
         // Menu button
         Builder(builder: (drawer) {
-          return Material(
-            borderRadius: BorderRadius.circular(4),
-            color: AppColor.lev3,
-            child: InkWell(
-              onTap: () => Scaffold.of(drawer).openEndDrawer(),
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(
-                  Icons.menu,
-                  color: AppColor.lev1,
-                ),
-              ),
+          return InkWell(
+            onTap: () => Scaffold.of(drawer).openEndDrawer(),
+            child: const Icon(
+              Icons.menu_rounded,
+              color: AppColor.lev1,
+              size: 20 * 2,
             ),
           );
         })
