@@ -9,8 +9,8 @@ import 'package:pencatatan_keuangan/data/model/history.dart';
 import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
-import 'package:pencatatan_keuangan/presentation/page/update_history_page.dart';
 import 'package:pencatatan_keuangan/package/my_package.dart';
+import 'package:pencatatan_keuangan/presentation/page/history/update_history_page.dart';
 
 class IncomeOutcomePage extends StatefulWidget {
   const IncomeOutcomePage({super.key, required this.type});

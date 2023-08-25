@@ -6,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/config/app_format.dart';
 import 'package:pencatatan_keuangan/data/source/source_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_add_history.dart';
-
-import '../../config/app_color.dart';
 
 class AddHistoryPage extends StatelessWidget {
   AddHistoryPage({super.key});

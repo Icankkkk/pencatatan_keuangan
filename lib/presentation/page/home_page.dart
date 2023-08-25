@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
             color: AppColor.lev1,
           ),
           child: GNav(
+            // TODO: Clear GNap...
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             color: Colors.white,
             activeColor: AppColor.lev4,
