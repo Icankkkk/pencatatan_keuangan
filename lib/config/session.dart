@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:pencatatan_keuangan/data/controller_user.dart';
+import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/data/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +11,7 @@ class Session {
     String stringUser = jsonEncode(mapUser);
     bool success = await pref.setString('user', stringUser);
     if (success) {
-      final controllerUser = Get.put(ControllerUser());
+      final controllerUser = Get.put(UserController());
       controllerUser.setData(user);
     }
     return success;
@@ -26,7 +25,7 @@ class Session {
       Map<String, dynamic> mapUser = jsonDecode(stringUser);
       user = User.fromJson(mapUser);
     }
-    final controllerUser = Get.put(ControllerUser());
+    final controllerUser = Get.put(UserController());
     controllerUser.setData(user);
     return user;
   }
@@ -34,7 +33,7 @@ class Session {
   static Future<bool> clearUser() async {
     final pref = await SharedPreferences.getInstance();
     bool success = await pref.remove('user');
-    final controllerUser = Get.put(ControllerUser());
+    final controllerUser = Get.put(UserController());
     controllerUser.setData(User());
     return success;
   }

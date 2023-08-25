@@ -6,8 +6,8 @@ import 'package:pencatatan_keuangan/config/app_asset.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/data/source/source_user.dart';
+import 'package:pencatatan_keuangan/presentation/page/auth/register_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/home_page.dart';
-import 'package:pencatatan_keuangan/presentation/page/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,14 +29,16 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text,
       );
       if (success) {
-        DInfo.dialogSuccess('Berhasil Masuk',
-            messageStyle: GoogleFonts.poppins());
+        DInfo.dialogSuccess(
+          'Berhasil Masuk',
+          messageStyle: GoogleFonts.poppins(),
+        );
 
         DInfo.closeDialog(actionAfterClose: () {
           Get.off(() => const HomePage());
         });
       } else {
-        DInfo.dialogSuccess('Gagal Masuk', messageStyle: GoogleFonts.poppins());
+        DInfo.dialogError('Gagal Masuk', messageStyle: GoogleFonts.poppins());
         DInfo.closeDialog();
       }
     }
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // REGISTER
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -186,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

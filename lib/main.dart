@@ -4,8 +4,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:pencatatan_keuangan/config/app_color.dart';
 import 'package:pencatatan_keuangan/config/session.dart';
 import 'package:pencatatan_keuangan/data/model/user.dart';
+import 'package:pencatatan_keuangan/presentation/page/auth/login_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/home_page.dart';
-import 'package:pencatatan_keuangan/presentation/page/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
