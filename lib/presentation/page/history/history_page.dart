@@ -11,6 +11,7 @@ import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_history.dart';
 import 'package:pencatatan_keuangan/presentation/controller/history/controller_income_outcome.dart';
 import 'package:pencatatan_keuangan/package/my_package.dart';
+import 'package:pencatatan_keuangan/presentation/page/history/detail_history_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key, required this.type});
@@ -141,7 +142,11 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // TODO: create action here
+                    Get.to(() => DetailHistoryPage(
+                          idUser: userController.data.idUser!,
+                          date: history.date!,
+                          type: history.type!,
+                        ));
                   },
                   borderRadius: BorderRadius.circular(4),
                   child: Padding(

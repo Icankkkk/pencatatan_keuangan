@@ -3,9 +3,11 @@ import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_home.dart';
 import 'package:pencatatan_keuangan/presentation/controller/controller_user.dart';
 import 'package:pencatatan_keuangan/presentation/page/history/add_history_page.dart';
+import 'package:pencatatan_keuangan/presentation/page/history/detail_history_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/history/history_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/history/income_outcome_page.dart';
 import '../../config/app_asset.dart';
@@ -260,29 +262,44 @@ class HomeWidget {
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+            child: InkWell(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 bottomLeft: Radius.circular(8),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Selengkapnya',
-                  style: GoogleFonts.poppins(
-                    color: AppColor.lev1,
-                    fontSize: 16,
+              onTap: () {
+                Get.to(() => DetailHistoryPage(
+                      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                      idUser: userController.data.idUser!,
+                      type: 'Pengeluaran',
+                    ));
+              },
+              child: Ink(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
                   ),
                 ),
-                const Icon(
-                  Icons.navigate_next,
-                  color: AppColor.lev1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Selengkapnya',
+                      style: GoogleFonts.poppins(
+                        color: AppColor.lev1,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Icon(
+                      Icons.navigate_next,
+                      color: AppColor.lev1,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -364,61 +381,55 @@ class HomeWidget {
   Widget _buildMonthlyChart(BuildContext ctx) {
     return Row(
       children: [
-        Expanded(
-          child: SizedBox(
-            width: MediaQuery.of(ctx).size.width * 0.5,
-            height: MediaQuery.of(ctx).size.width * 0.5,
-            child: Stack(
-              children: [
-                Obx(() {
-                  return DChartPie(
-                    data: [
-                      {
-                        'domain': 'income',
-                        'measure': homeController.monthIncome
-                      },
-                      {
-                        'domain': 'outcome',
-                        'measure': homeController.monthOutcome
-                      },
-                      // if month income and month outcome = 0
-                      if (homeController.monthIncome == 0 &&
-                          homeController.monthOutcome == 0)
-                        {'domain': 'nol', 'measure': 1},
-                    ],
-                    fillColor: (pieData, index) {
-                      switch (pieData['domain']) {
-                        case 'income':
-                          return AppColor.lev3;
-                        case 'outcome':
-                          return AppColor.lev1;
-                        default:
-                          return AppColor.lev2.withOpacity(0.5);
-                      }
+        SizedBox(
+          width: MediaQuery.of(ctx).size.width * 0.5,
+          height: MediaQuery.of(ctx).size.width * 0.5,
+          child: Stack(
+            children: [
+              Obx(() {
+                return DChartPie(
+                  data: [
+                    {'domain': 'income', 'measure': homeController.monthIncome},
+                    {
+                      'domain': 'outcome',
+                      'measure': homeController.monthOutcome
                     },
-                    donutWidth: 24,
-                    labelColor: Colors.white,
-                    showLabelLine: false,
+                    // if month income and month outcome = 0
+                    if (homeController.monthIncome == 0 &&
+                        homeController.monthOutcome == 0)
+                      {'domain': 'nol', 'measure': 1},
+                  ],
+                  fillColor: (pieData, index) {
+                    switch (pieData['domain']) {
+                      case 'income':
+                        return AppColor.lev3;
+                      case 'outcome':
+                        return AppColor.lev1;
+                      default:
+                        return AppColor.lev2.withOpacity(0.5);
+                    }
+                  },
+                  donutWidth: 24,
+                  labelFontSize: 0,
+                );
+              }),
+              // Percentage
+              Center(
+                child: Obx(() {
+                  return Text(
+                    '${homeController.percentIncome}%',
+                    style: GoogleFonts.poppins(
+                      color: AppColor.lev3,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   );
                 }),
-                // Percentage
-                Center(
-                  child: Obx(() {
-                    return Text(
-                      '${homeController.percentIncome}%',
-                      style: GoogleFonts.poppins(
-                        color: AppColor.lev3,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        DView.spaceWidth(0),
+        DView.spaceWidth(8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
