@@ -10,6 +10,7 @@ import 'package:pencatatan_keuangan/presentation/page/history/add_history_page.d
 import 'package:pencatatan_keuangan/presentation/page/history/detail_history_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/history/history_page.dart';
 import 'package:pencatatan_keuangan/presentation/page/history/income_outcome_page.dart';
+
 import '../../config/app_asset.dart';
 import '../../config/app_color.dart';
 import '../../config/app_format.dart';
@@ -429,61 +430,62 @@ class HomeWidget {
             ],
           ),
         ),
-        DView.spaceWidth(8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 16,
-                  width: 16,
-                  color: AppColor.lev1,
-                ),
-                DView.spaceWidth(8),
-                Text(
-                  'Pengeluaran',
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 16,
+                    width: 16,
+                    color: AppColor.lev1,
+                  ),
+                  DView.spaceWidth(8),
+                  Text(
+                    'Pengeluaran',
+                    style: GoogleFonts.poppins(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 16,
+                    width: 16,
+                    color: AppColor.lev3,
+                  ),
+                  DView.spaceWidth(8),
+                  Text(
+                    'Pemasukan',
+                    style: GoogleFonts.poppins(),
+                  ),
+                ],
+              ),
+              DView.spaceHeight(10),
+              Obx(() {
+                return Text(
+                  homeController.monthPercent,
                   style: GoogleFonts.poppins(),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 16,
-                  width: 16,
-                  color: AppColor.lev3,
-                ),
-                DView.spaceWidth(8),
-                Text(
-                  'Pemasukan',
-                  style: GoogleFonts.poppins(),
-                ),
-              ],
-            ),
-            DView.spaceHeight(10),
-            Obx(() {
-              return Text(
-                homeController.monthPercent,
+                );
+              }),
+              DView.spaceHeight(10),
+              Text(
+                'Atau setara',
                 style: GoogleFonts.poppins(),
-              );
-            }),
-            DView.spaceHeight(10),
-            Text(
-              'Atau setara',
-              style: GoogleFonts.poppins(),
-            ),
-            Obx(() {
-              return Text(
-                AppFormat.currency(homeController.differentMonth.toString()),
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  color: AppColor.lev1,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            }),
-          ],
+              ),
+              Obx(() {
+                return Text(
+                  AppFormat.currency(homeController.differentMonth.toString()),
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color: AppColor.lev1,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ],
     );

@@ -11,7 +11,7 @@ class IncomeOutcomeController extends GetxController {
 
   getList(idUser, type) async {
     _loading.value = true;
-    update();
+    update(); 
 
     _list.value = await SourceHistory.incomeOutcome(idUser, type);
     update();
